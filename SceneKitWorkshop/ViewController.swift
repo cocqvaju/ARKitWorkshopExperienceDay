@@ -102,7 +102,13 @@ extension ViewController {
     
     @objc func didTapView(sender: UITapGestureRecognizer) {
         let location = sender.location(in: sender.view)
-        if let result = sceneView.hitTest(location, types: .existingPlane).first {
+        
+        if let result = sceneView.hitTest(location, options: [:]).first, let sphere = result.node as? Sphere {
+            // LocalNormal is the angle the ball is tapped and force going outwards
+            let force = result.localNormal.inverse().multiply(factor: 2)
+            sphere.physicsBody?.applyForce(force, asImpulse: true)
+        }
+        else if let result = sceneView.hitTest(location, types: .existingPlane).first {
             let sphere = Sphere()
             sphere.position(at: result.worldTransform)
             sphere.position.y += sphere.radius
