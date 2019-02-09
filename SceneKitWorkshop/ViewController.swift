@@ -37,7 +37,7 @@ class Plane: SCNNode {
         plane.length = CGFloat(anchor.extent.z)
         let shape = SCNPhysicsShape(geometry: plane, options: nil)
         planeNode.physicsBody = SCNPhysicsBody(type: .static, shape: shape)
-        planeNode.position = SCNVector3(x: anchor.center.x, y: -planeHeight/2, z: anchor.center.z)\
+        planeNode.position = SCNVector3(x: anchor.center.x, y: -planeHeight/2, z: anchor.center.z)
     }
     
     required init?(coder aDecoder: NSCoder) {
