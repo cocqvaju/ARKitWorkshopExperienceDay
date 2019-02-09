@@ -20,7 +20,7 @@ class Plane: SCNNode {
         planeNode = SCNNode(geometry: plane)
         super.init()
         addChildNode(planeNode)
-        show(true)
+        show(false)
     }
     
     func show(_ visible: Bool) {
@@ -84,7 +84,7 @@ class Sphere: SCNNode {
     
     override init() {
         self.sphere = SCNSphere(radius: CGFloat(radius))
-        sphere.materials = [SCNNode.material(for: UIColor.red)]
+        sphere.materials = [SCNNode.material(for: sharedImageIterator.next()!)]
         super.init()
         self.geometry = sphere
         let shape = SCNPhysicsShape(geometry: sphere, options: nil)
@@ -147,7 +147,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         sceneView.delegate = self
         
-        sceneView.debugOptions = [.showPhysicsShapes]
         sceneView.autoenablesDefaultLighting = true
         sceneView.automaticallyUpdatesLighting = true
         
