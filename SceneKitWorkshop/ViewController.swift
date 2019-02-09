@@ -84,9 +84,16 @@ class Plane: SCNNode {
 // --------------------------------
 
 class Sphere: SCNNode {
+    let sphere: SCNSphere
+    let radius: Float = 0.025
     
     override init() {
+        self.sphere = SCNSphere(radius: CGFloat(radius))
+        sphere.materials = [SCNNode.material(for: UIColor.red)]
         super.init()
+        self.geometry = sphere
+        let shape = SCNPhysicsShape(geometry: sphere, options: nil)
+        self.physicsBody = SCNPhysicsBody(type: .dynamic, shape: shape)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -101,7 +108,13 @@ class Sphere: SCNNode {
 extension ViewController {
     
     @objc func didTapView(sender: UITapGestureRecognizer) {
-        
+        let location = sender.location(in: sender.view)
+        if let result = sceneView.hitTest(location, types: .existingPlane).first {
+            let sphere = Sphere()
+            sphere.position(at: result.worldTransform)
+            sphere.position.y += sphere.radius
+            sceneView.scene.rootNode.addChildNode(sphere)
+        }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
